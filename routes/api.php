@@ -1,5 +1,7 @@
 <?php
 
+use App\Http\Controllers\AuthController;
+use App\Http\Controllers\UserController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -17,3 +19,14 @@ use Illuminate\Support\Facades\Route;
 Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
 });
+
+Route::middleware('auth:sanctum')->get('/test', [AuthController::class, 'test']);
+Route::post('/login', [AuthController::class, 'login'])->name('login');
+Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
+Route::post('/validate-token', [AuthController::class, 'validate_token']);
+Route::middleware('auth:sanctum')->get('/users', [UserController::class, 'all_user']);
+Route::middleware('auth:sanctum')->post('/add-user', [UserController::class, 'add_user']);
+Route::middleware('auth:sanctum')->get('/remove-user/{id}', [UserController::class, 'remove_user']);
+Route::middleware('auth:sanctum')->get('/get-user-pk/{id}', [UserController::class, 'get_user_pk']);
+Route::middleware('auth:sanctum')->post('/update-user', [UserController::class, 'update_user']);
+Route::post('/status', [AuthController::class, 'set_status']);
