@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\SettingController;
 use App\Http\Controllers\UserController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
@@ -30,3 +31,7 @@ Route::middleware('auth:sanctum')->get('/remove-user/{id}', [UserController::cla
 Route::middleware('auth:sanctum')->get('/get-user-pk/{id}', [UserController::class, 'get_user_pk']);
 Route::middleware('auth:sanctum')->post('/update-user', [UserController::class, 'update_user']);
 Route::post('/status', [AuthController::class, 'set_status']);
+
+Route::get('/list-menu', [SettingController::class, 'list_menu']);
+Route::post('/update-setting', [SettingController::class, 'update_setting']);
+Route::get('/data-image', [SettingController::class, 'data_image']);

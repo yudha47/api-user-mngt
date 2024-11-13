@@ -10,7 +10,6 @@ class UserController extends Controller
 {
   public function all_user(){
     $users = User::select('*')->get();
-    // return response()->json($users, 200);
     $response = [
         'responseCode' => 200000,
         'responseMessage' => 'Success',
