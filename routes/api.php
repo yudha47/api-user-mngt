@@ -17,20 +17,18 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
-    return $request->user();
-});
-
-Route::middleware('auth:sanctum')->get('/test', [AuthController::class, 'test']);
 Route::post('/login', [AuthController::class, 'login'])->name('login');
 Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
 Route::post('/validate-token', [AuthController::class, 'validate_token']);
-Route::middleware('auth:sanctum')->get('/users', [UserController::class, 'all_user']);
-Route::middleware('auth:sanctum')->post('/add-user', [UserController::class, 'add_user']);
-Route::middleware('auth:sanctum')->get('/remove-user/{id}', [UserController::class, 'remove_user']);
-Route::middleware('auth:sanctum')->get('/get-user-pk/{id}', [UserController::class, 'get_user_pk']);
-Route::middleware('auth:sanctum')->post('/update-user', [UserController::class, 'update_user']);
-Route::post('/status', [AuthController::class, 'set_status']);
+
+Route::middleware('auth:sanctum')->controller(UserController::class)->group(function (){
+  Route::get('/users', 'all_user');
+  Route::get('/user-online', 'user_online');
+  Route::post('/add-user', 'add_user');
+  Route::get('/remove-user/{id}', 'remove_user');
+  Route::get('/get-user-pk/{id}', 'get_user_pk');
+  Route::post('/update-user', 'update_user');
+});
 
 Route::get('/list-menu', [SettingController::class, 'list_menu']);
 Route::post('/update-setting', [SettingController::class, 'update_setting']);

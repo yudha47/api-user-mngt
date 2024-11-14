@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
+use Laravel\Sanctum\PersonalAccessToken;
 
 class UserController extends Controller
 {
@@ -14,6 +15,17 @@ class UserController extends Controller
         'responseCode' => 200000,
         'responseMessage' => 'Success',
         'responseData' => $users
+    ];
+    
+    return response()->json($response, 200);
+  }
+
+  public function user_online(){
+    $user = PersonalAccessToken::all()->groupBy('tokenable_id')->count();
+    $response = [
+        'responseCode' => 200000,
+        'responseMessage' => 'Success',
+        'responseData' => $user
     ];
     
     return response()->json($response, 200);
@@ -38,7 +50,7 @@ class UserController extends Controller
     User::create([
       "user_fullname" => $request->user_fullname,
       "user_email" => $request->user_email,
-      "user_password" => bcrypt($request->user_fullname)
+      "user_password" => bcrypt($request->user_password)
     ]);
 
     $users = User::select('*')->get();
@@ -94,7 +106,7 @@ class UserController extends Controller
     User::where('user_id', $request->user_id)->update([
       "user_fullname" => $request->user_fullname,
       "user_email" => $request->user_email,
-      "user_password" => bcrypt($request->user_fullname)
+      "user_password" => bcrypt($request->user_password)
     ]);
 
     $users = User::select('*')->get();

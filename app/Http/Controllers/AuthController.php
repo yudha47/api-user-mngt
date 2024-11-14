@@ -77,7 +77,7 @@ class AuthController extends Controller
     }else{
       $response = [
         'responseCode' => 400001,
-        'responseMessage' => 'There was a problem logging in. Check your email and password or create an account.'
+        'responseMessage' => 'Account not found'
       ];
 
       return response()->json($response, 400);
